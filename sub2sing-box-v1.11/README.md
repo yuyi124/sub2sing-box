@@ -2,59 +2,11 @@
 
 将订阅/节点连接转换为 sing-box 配置的工具。
 
-## 1. Convert
-
-Example:
-```shell
-http://localhost:8080/sub/<订阅链接>
-```
-+ 将`<订阅链接>`替换为 自己的订阅链接。
-+ 或者访问: `http://localhost:8080` 配置订阅链接。
-
-## 2. Start
-
-```shell
-docker run -p 8080:8080 yuyi2/sub2sing-box:latest
-```
-
-Example `compose.yaml`:
-
-```yaml
-services:
-  sub2sing-box:
-    image: yuyi2/sub2sing-box:latest
-    container_name: sub2sing-box
-    # volumes:
-    #   - ./templates:/app/templates # Optional: Mount a custom template
-    ports:
-      - "8080:8080"
-    restart: unless-stopped
-```
-
-## 3. Supported sing-box versions
-
-- 1.11.x
-- 1.12.x
-
-## 4. Server 模式 API
-### GET /sub/<subscribe_url>
-
-| query | 描述                                   |
-| - |--------------------------------------|
-|  <subscribe_url> | eg: `http://localhost:8080/sub/<订阅链接>` |
-
-### GET /convert
-
-| query | 描述                                                                                                                    |
-| ----- | ----------------------------------------------------------------------------------------------------------------------- |
-| data  | 同上方配置，但需要使用 [base64 URL safe 编码](<https://gchq.github.io/CyberChef/#recipe=To_Base64('A-Za-z0-9%2B/%3D')>) |
-
-
-## 5. 控制台命令
+## 控制台命令
 
 使用 `sub2sing-box <command> -h` 查看各命令的帮助信息。
 
-## 6. 配置
+## 配置
 
 示例:
 
@@ -80,7 +32,7 @@ sub2sing-box convert -c ./sub2sing-box.json
 
 即可生成 sing-box 配置，无需每次重复设置参数。
 
-## 7. 模板
+## 模板
 
 ### 默认模板
 
@@ -157,3 +109,19 @@ sub2sing-box convert -c ./sub2sing-box.json
   "interrupt_exist_connections": true
 }
 ```
+
+## Docker 使用
+
+```
+docker run -p 8080:8080 nite07/sub2sing-box:latest
+```
+
+可以挂载目录添加自定义模板
+
+## Server 模式 API
+
+### GET /convert
+
+| query | 描述                                                                                                                    |
+| ----- | ----------------------------------------------------------------------------------------------------------------------- |
+| data  | 同上方配置，但需要使用 [base64 URL safe 编码](<https://gchq.github.io/CyberChef/#recipe=To_Base64('A-Za-z0-9%2B/%3D')>) |

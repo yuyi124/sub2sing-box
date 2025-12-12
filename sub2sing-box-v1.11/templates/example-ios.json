@@ -1,0 +1,208 @@
+{
+    "log": {
+        "level": "info",
+        "timestamp": true
+    },
+    "dns": {
+        "fakeip": {
+            "enabled": true,
+            "inet4_range": "198.18.0.0/15",
+            "inet6_range": "fc00::/18"
+        },
+        "servers": [
+            {
+                "tag": "cloudflare-udp",
+                "address": "1.1.1.1",
+                "detour": "代理"
+            },
+            {
+                "tag": "local-dns",
+                "address": "local",
+                "detour": "直连"
+            },
+            {
+                "tag": "refused",
+                "address": "rcode://refused"
+            },
+            {
+                "tag": "fakeip",
+                "address": "fakeip"
+            }
+        ],
+        "rules": [
+            {
+                "outbound": "any",
+                "server": "cloudflare-udp"
+            },
+            {
+                "clash_mode": "直连",
+                "server": "local-dns"
+            },
+            {
+                "clash_mode": "Global",
+                "server": "cloudflare-udp"
+            },
+            {
+                "rule_set": "geosite-cn",
+                "server": "local-dns"
+            },
+            {
+                "rule_set": "geosite-geolocation-!cn",
+                "server": "fakeip"
+            }
+        ],
+        "final": "cloudflare-udp"
+    },
+    "inbounds": [
+        {
+            "type": "tun",
+            "address": [
+                "172.16.0.1/30",
+                "fdfe:dcba:9876::1/126"
+            ],
+            "auto_route": true,
+            "strict_route": true,
+            "sniff": true
+        }
+    ],
+    "outbounds": [
+        {
+            "type": "direct",
+            "tag": "直连"
+        },
+        {
+            "type": "vless",
+            "tag": "jp",
+            "server": "43.133.1.53",
+            "server_port": 443,
+            "uuid": "fbc54d3f-854a-4c92-a356-6231aeb61a64",
+            "flow": "xtls-rprx-vision",
+            "tls": {
+                "enabled": true,
+                "server_name": "aws.amazon.com",
+                "utls": {
+                    "enabled": true,
+                    "fingerprint": "chrome"
+                },
+                "reality": {
+                    "enabled": true,
+                    "public_key": "VTZ_fg1mQ1xO_K998-THzx1MAauAq_QBoB5VfowlSn0",
+                    "short_id": ""
+                }
+            }
+        },
+        {
+            "type": "vless",
+            "tag": "jp-v6",
+            "server": "240d:c000:f06f:9100:e1c:1d94:6626:0",
+            "server_port": 443,
+            "uuid": "fbc54d3f-854a-4c92-a356-6231aeb61a64",
+            "flow": "xtls-rprx-vision",
+            "tls": {
+                "enabled": true,
+                "server_name": "aws.amazon.com",
+                "utls": {
+                    "enabled": true,
+                    "fingerprint": "chrome"
+                },
+                "reality": {
+                    "enabled": true,
+                    "public_key": "VTZ_fg1mQ1xO_K998-THzx1MAauAq_QBoB5VfowlSn0",
+                    "short_id": ""
+                }
+            }
+        },
+        {
+            "type": "vless",
+            "tag": "hk",
+            "server": "47.238.70.218",
+            "server_port": 443,
+            "uuid": "4c85419d-c669-4e8e-a764-594010ac80c0",
+            "flow": "xtls-rprx-vision",
+            "tls": {
+                "enabled": true,
+                "server_name": "dash.cloudflare.com",
+                "utls": {
+                    "enabled": true,
+                    "fingerprint": "chrome"
+                },
+                "reality": {
+                    "enabled": true,
+                    "public_key": "Wr2Nkc-7b-4yakkPf_3_ZnZ6UPmHSP8Z34Scujyp7y4",
+                    "short_id": ""
+                }
+            }
+        },
+        {
+            "type": "selector",
+            "tag": "代理",
+            "outbounds": [
+                "hk",
+                "jp-v6",
+                "jp",
+                "直连",
+                "<all-proxy-tags>"
+            ]
+        }
+    ],
+    "route": {
+        "rules": [
+            {
+                "protocol": "dns",
+                "action": "hijack-dns"
+            },
+            {
+                "port": [
+                    3478,
+                    5348,
+                    5349
+                ],
+                "outbound": "直连"
+            },
+            {
+                "ip_is_private": true,
+                "outbound": "直连"
+            },
+            {
+                "clash_mode": "直连",
+                "outbound": "直连"
+            },
+            {
+                "clash_mode": "Global",
+                "outbound": "代理"
+            },
+            {
+                "rule_set": [
+                    "geosite-cn",
+                    "geoip-cn"
+                ],
+                "outbound": "直连"
+            }
+        ],
+        "rule_set": [
+            {
+                "type": "remote",
+                "tag": "geosite-geolocation-!cn",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-!cn.srs",
+                "download_detour": "代理"
+            },
+            {
+                "type": "remote",
+                "tag": "geoip-cn",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-cn.srs",
+                "download_detour": "代理"
+            },
+            {
+                "type": "remote",
+                "tag": "geosite-cn",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs",
+                "download_detour": "代理"
+            }
+        ],
+        "final": "代理",
+        "auto_detect_interface": true
+    }
+}

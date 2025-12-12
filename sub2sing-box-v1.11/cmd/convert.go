@@ -6,8 +6,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/bestnite/sub2sing-box/common"
-	"github.com/bestnite/sub2sing-box/model"
+	"github.com/nitezs/sub2sing-box/common"
+	"github.com/nitezs/sub2sing-box/model"
 
 	"github.com/spf13/cobra"
 )
@@ -111,6 +111,7 @@ func loadConfig() {
 			return
 		}
 	} else {
+
 		bytes = []byte(config)
 	}
 

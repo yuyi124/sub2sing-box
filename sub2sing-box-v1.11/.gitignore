@@ -3,6 +3,7 @@
 dist
 template.json
 .idea
+test
 sub2sing-box.json
 config.json
-.DS_Store
+*test.go

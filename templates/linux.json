@@ -1,0 +1,257 @@
+{
+  "log": {
+    "disabled": true,
+    "level": "error"
+  },
+  "dns": {
+    "servers": [
+      {
+        "type": "https",
+        "tag": "ali-https",
+        "server": "223.5.5.5"
+      },
+      {
+        "type": "https",
+        "tag": "cloudflare-https",
+        "server": "cloudflare-dns.com",
+        "detour": "PROXY",
+        "domain_resolver": "ali-https"
+      },
+      {
+        "type": "quic",
+        "tag": "adguard-quic",
+        "server": "dns.adguard-dns.com",
+        "domain_resolver": "ali-https",
+        "detour": "PROXY"
+      },
+      {
+        "type": "fakeip",
+        "tag": "fakeip",
+        "inet4_range": "198.18.0.0/15",
+        "inet6_range": "fc00::/18"
+      }
+    ],
+    "rules": [
+      {
+        "query_type": [
+          "HTTPS",
+          "A",
+          "AAAA",
+          "NS",
+          "CNAME",
+          "TXT",
+          "MX"
+        ],
+        "invert": true,
+        "action": "reject",
+        "method": "default"
+      },
+      {
+        "protocol": "quic",
+        "server": "adguard-quic"
+      },
+      {
+        "clash_mode": "Direct",
+        "server": "ali-https",
+        "strategy": "prefer_ipv6"
+      },
+      {
+        "clash_mode": "Global",
+        "server": "cloudflare-https",
+        "strategy": "prefer_ipv6"
+      },
+      {
+        "rule_set": [
+          "geosite-google",
+          "geosite-globalsign.srs"
+        ],
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "server": "fakeip",
+        "strategy": "ipv4_only"
+      },
+      {
+        "rule_set": [
+          "geosite-geolocation-cn",
+          "geosite-cn",
+          "geosite-category-games@cn",
+          "geosite-steam@cn",
+          "geosite-apple@cn"
+        ],
+        "server": "ali-https",
+        "strategy": "prefer_ipv6"
+      },
+      {
+        "rule_set": [
+          "geosite-geolocation-!cn"
+        ],
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "server": "fakeip",
+        "strategy": "ipv4_only"
+      }
+    ],
+    "final": "cloudflare-https",
+    "strategy": "prefer_ipv6"
+  },
+  "route": {
+    "rules": [
+      {
+        "port": [
+          3478,
+          5348,
+          5349
+        ],
+        "outbound": "DIRECT"
+      },
+      {
+        "action": "sniff",
+        "timeout": "1s"
+      },
+      {
+        "protocol": "dns",
+        "action": "hijack-dns"
+      },
+      {
+        "protocol": [
+          "ssh"
+        ],
+        "outbound": "DIRECT"
+      },
+      {
+        "clash_mode": "Direct",
+        "outbound": "DIRECT"
+      },
+      {
+        "clash_mode": "Global",
+        "outbound": "PROXY"
+      },
+      {
+        "domain_suffix": [
+          "feishu-boe.cn",
+          "push.126.net"
+        ],
+        "action": "reject"
+      },
+      {
+        "rule_set": [
+          "geosite-google",
+          "geosite-globalsign.srs"
+        ],
+        "outbound": "PROXY"
+      },
+      {
+        "rule_set": [
+          "geoip-cn",
+          "geosite-geolocation-cn",
+          "geosite-cn",
+          "geosite-category-games@cn",
+          "geosite-steam@cn",
+          "geosite-apple@cn"
+        ],
+        "outbound": "DIRECT"
+      },
+      {
+        "rule_set": [
+          "geosite-geolocation-!cn"
+        ],
+        "outbound": "PROXY"
+      },
+      {
+        "ip_is_private": true,
+        "outbound": "DIRECT"
+      }
+    ],
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "geoip-cn",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-cn.srs",
+        "download_detour": "PROXY"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-cn",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs",
+        "download_detour": "PROXY"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-geolocation-!cn",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-!cn.srs",
+        "download_detour": "PROXY"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-geolocation-cn",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-cn.srs",
+        "download_detour": "PROXY"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-google",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-google.srs",
+        "download_detour": "PROXY"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-globalsign.srs",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-globalsign.srs",
+        "download_detour": "PROXY"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-category-games@cn",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-category-games@cn.srs",
+        "download_detour": "PROXY"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-steam@cn",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-steam@cn.srs",
+        "download_detour": "PROXY"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-apple@cn",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-apple@cn.srs",
+        "download_detour": "PROXY"
+      }
+    ],
+    "final": "PROXY",
+    "auto_detect_interface": true,
+    "default_domain_resolver": "ali-https"
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "mtu": 9000,
+      "address": [
+        "172.19.0.1/30",
+        "fdfe:dcba:9876::1/126"
+      ],
+      "auto_route": true,
+      "strict_route": true,
+      "stack": "mixed"
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "direct",
+      "tag": "DIRECT"
+    },
+    {
+      "type": "selector",
+      "tag": "PROXY",
+      "outbounds": [
+        "<all-proxy-tags>",
+        "DIRECT"
+      ]
+    }
+  ]
+}

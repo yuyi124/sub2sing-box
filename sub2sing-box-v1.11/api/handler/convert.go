@@ -2,13 +2,10 @@ package handler
 
 import (
 	"encoding/json"
-	"net/http"
-	"os/exec"
 
-	"github.com/bestnite/sub2sing-box/common"
-	"github.com/bestnite/sub2sing-box/constant"
-	"github.com/bestnite/sub2sing-box/model"
-	"github.com/bestnite/sub2sing-box/util"
+	"github.com/nitezs/sub2sing-box/common"
+	"github.com/nitezs/sub2sing-box/model"
+	"github.com/nitezs/sub2sing-box/util"
 
 	"github.com/gin-gonic/gin"
 )
@@ -54,41 +51,23 @@ func Convert(c *gin.Context) {
 		}
 	}
 
-	if data.Version == constant.ClientVersionV1v11 {
-		cmd := exec.Command(
-			"sub2sing-box-v1.11/sub2sing-box-v1.11",
-			"convert",
-			"-c",
-			j,
-		)
-		out, err := cmd.CombinedOutput()
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error":   err.Error(),
-				"details": string(out),
-			})
-			return
-		}
-		c.String(http.StatusOK, string(out))
-	} else {
-		result, err := common.Convert(
-			data.Subscriptions,
-			data.Proxies,
-			data.Template,
-			data.Delete,
-			data.Rename,
-			data.Group,
-			data.GroupType,
-			data.SortKey,
-			data.SortType,
-			groupRules,
-		)
-		if err != nil {
-			c.JSON(400, gin.H{
-				"error": err.Error(),
-			})
-			return
-		}
-		c.String(200, result)
+	result, err := common.Convert(
+		data.Subscriptions,
+		data.Proxies,
+		data.Template,
+		data.Delete,
+		data.Rename,
+		data.Group,
+		data.GroupType,
+		data.SortKey,
+		data.SortType,
+		groupRules,
+	)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
 	}
+	c.String(200, result)
 }

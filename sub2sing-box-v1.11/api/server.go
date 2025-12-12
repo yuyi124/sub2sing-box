@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/bestnite/sub2sing-box/api/handler"
+	"github.com/nitezs/sub2sing-box/api/handler"
 
 	"github.com/gin-gonic/gin"
 )
@@ -40,7 +40,6 @@ func RunServer(bind string, port uint16) {
 	)
 
 	r.GET("/convert", handler.Convert)
-	r.GET("/sub/*url", handler.DirectSub)
 
 	address := bind + ":" + strconv.Itoa(int(port))
 	fmt.Println("Server is running on", address)

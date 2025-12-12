@@ -1,0 +1,13 @@
+{
+  "outbounds": [
+    {
+      "outbounds": ["<all-proxy-tags>", "direct"],
+      "tag": "default",
+      "type": "selector"
+    },
+    {
+      "tag": "direct",
+      "type": "direct"
+    }
+  ]
+}

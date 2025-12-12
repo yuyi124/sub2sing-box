@@ -56,13 +56,3 @@ type Outbound option.Outbound
 func (o *Outbound) MarshalJSON() ([]byte, error) {
 	return badjson.MarshallObjects((*option.Outbound)(o), o.Options)
 }
-
-type DNSServerOptionsCopy struct {
-	Type           string `json:"type"`
-	Tag            string `json:"tag"`
-	Server         string `json:"server,omitempty"`
-	Detour         string `json:"detour,omitempty"`
-	DomainResolver string `json:"domain_resolver,omitempty"`
-	Inet4Range     string `json:"inet4_range,omitempty"`
-	Inet6Range     string `json:"inet6_range,omitempty"`
-}
