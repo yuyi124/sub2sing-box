@@ -74,7 +74,7 @@
       {
         "rule_set": [
           "geosite-google",
-          "geosite-globalsign.srs"
+          "geosite-globalsign"
         ],
         "query_type": [
           "A",
@@ -168,21 +168,21 @@
         "outbound": "PROXY"
       },
       {
-        "domain_suffix": [
-          "feishu-boe.cn",
-          "push.126.net"
+        "rule_set": [
+          "custom-reject"
         ],
         "action": "reject"
       },
       {
         "rule_set": [
           "geosite-google",
-          "geosite-globalsign.srs"
+          "geosite-globalsign"
         ],
         "outbound": "PROXY"
       },
       {
         "rule_set": [
+          "custom-direct",
           "geoip-cn",
           "geosite-geolocation-cn",
           "geosite-cn",
@@ -241,7 +241,7 @@
       },
       {
         "type": "remote",
-        "tag": "geosite-globalsign.srs",
+        "tag": "geosite-globalsign",
         "format": "binary",
         "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-globalsign.srs",
         "download_detour": "PROXY"
@@ -263,8 +263,19 @@
       {
         "type": "remote",
         "tag": "geosite-apple@cn",
-        "format": "binary",
         "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-apple@cn.srs",
+        "download_detour": "PROXY"
+      },
+      {
+        "type": "remote",
+        "tag": "custom-direct",
+        "url": "https://raw.githubusercontent.com/yuyi124/sub2sing-box/dev/templates/rule_set/custom-direct.srs",
+        "download_detour": "PROXY"
+      },
+      {
+        "type": "remote",
+        "tag": "custom-reject",
+        "url": "https://raw.githubusercontent.com/yuyi124/sub2sing-box/dev/templates/rule_set/custom-reject.srs",
         "download_detour": "PROXY"
       }
     ],
