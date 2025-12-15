@@ -1,0 +1,13 @@
+{
+  "subscription": [],
+  "proxy": [],
+  "delete": "",
+  "template": "",
+  "rename": {},
+  "group-type": "selector",
+  "sort": "tag",
+  "sort-type": "asc",
+  "group-rules": "",
+  "group": false,
+  "version": ""
+}
