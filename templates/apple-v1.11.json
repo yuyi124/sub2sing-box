@@ -263,18 +263,21 @@
       {
         "type": "remote",
         "tag": "geosite-apple@cn",
+        "format": "binary",
         "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-apple@cn.srs",
         "download_detour": "PROXY"
       },
       {
         "type": "remote",
         "tag": "custom-direct",
+        "format": "binary",
         "url": "https://raw.githubusercontent.com/yuyi124/sub2sing-box/dev/templates/rule_set/custom-direct.srs",
         "download_detour": "PROXY"
       },
       {
         "type": "remote",
         "tag": "custom-reject",
+        "format": "binary",
         "url": "https://raw.githubusercontent.com/yuyi124/sub2sing-box/dev/templates/rule_set/custom-reject.srs",
         "download_detour": "PROXY"
       }
