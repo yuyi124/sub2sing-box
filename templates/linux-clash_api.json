@@ -47,6 +47,12 @@
         "method": "default"
       },
       {
+        "rule_set": [
+          "custom-reject"
+        ],
+        "action": "reject"
+      },
+      {
         "protocol": "quic",
         "server": "adguard-quic"
       },
@@ -74,6 +80,7 @@
       },
       {
         "rule_set": [
+          "custom-direct",
           "geosite-geolocation-cn",
           "geosite-cn",
           "geosite-category-games@cn",
