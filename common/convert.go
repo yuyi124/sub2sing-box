@@ -110,10 +110,6 @@ func Convert(
 		}
 	}
 
-	if enableGroup {
-		// 获得所有原始节点和分组配置
-		outbounds = AddCountryGroup(outbounds, groupType, sortKey, sortType, groupRules)
-	}
 	if templatePath != "" {
 		templateData, err := ReadTemplate(templatePath)
 		if err != nil {
@@ -130,8 +126,15 @@ func Convert(
 			}
 		}
 
-		// 分组功能未被显式启用&&模板数据中包含类似 <US> 这样的国家代码占位符||模板数据中包含所有国家分组的常量标记||模板数据中包含国家名称（在前面的代码中检测到）
-		if !enableGroup && (reg.MatchString(templateData) || strings.Contains(templateData, constant.AllCountryTags) || group) {
+		hasAllCountryTags := strings.Contains(templateData, constant.AllCountryTags)
+		hasCountryPlaceholder := reg.MatchString(templateData)
+		//显式启用分组功能&&模板数据中包含所有国家分组的常量占位符
+		// 未显式启用分组功能&&模板数据中包含类似 <US> 这样的国家代码占位符||模板数据中包含所有国家分组的常量占位符||模板数据中包含国家名称（在前面的代码中检测到）
+		shouldGroup := enableGroup ||
+			(!enableGroup && (hasCountryPlaceholder || hasAllCountryTags || group))
+
+		if shouldGroup {
+			// 获得所有原始节点和分组配置
 			outbounds = AddCountryGroup(outbounds, groupType, sortKey, sortType, groupRules)
 		}
 		var template model.Options
