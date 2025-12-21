@@ -268,15 +268,8 @@
       "type": "selector",
       "tag": "PROXY",
       "outbounds": [
-        "<all-country-tags>",
+        "<all-proxy-tags>",
         "DIRECT"
-      ]
-    },
-    {
-      "type": "urltest",
-      "tag": "自动选择",
-      "outbounds": [
-        "<all-proxy-tags>"
       ]
     }
   ]
