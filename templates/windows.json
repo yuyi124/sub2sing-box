@@ -48,7 +48,7 @@
       },
       {
         "rule_set": [
-          "custom-reject"
+          "custom-reject-site"
         ],
         "action": "reject"
       },
@@ -80,7 +80,8 @@
       },
       {
         "rule_set": [
-          "custom-direct",
+          "custom-direct-site",
+          "custom-direct-ip",
           "geosite-geolocation-cn",
           "geosite-cn",
           "geosite-category-games@cn",
@@ -146,7 +147,7 @@
       },
       {
         "rule_set": [
-          "custom-reject"
+          "custom-reject-site"
         ],
         "action": "reject"
       },
@@ -159,7 +160,8 @@
       },
       {
         "rule_set": [
-          "custom-direct",
+          "custom-direct-site",
+          "custom-direct-ip",
           "geoip-cn",
           "geosite-geolocation-cn",
           "geosite-cn",
@@ -235,16 +237,22 @@
         "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-apple@cn.srs",
         "download_detour": "PROXY"
       },
-      {
+    {
         "type": "remote",
-        "tag": "custom-direct",
-        "url": "https://raw.githubusercontent.com/yuyi124/sub2sing-box/dev/templates/rule_set/custom-direct.srs",
+        "tag": "custom-direct-site",
+        "url": "https://raw.githubusercontent.com/yuyi124/sub2sing-box/dev/templates/rule_set/custom-direct-site.srs",
         "download_detour": "PROXY"
-      },
+    },
+    {
+        "type": "remote",
+        "tag": "custom-direct-ip",
+        "url": "https://raw.githubusercontent.com/yuyi124/sub2sing-box/dev/templates/rule_set/custom-direct-ip.srs",
+        "download_detour": "PROXY"
+    },
       {
         "type": "remote",
-        "tag": "custom-reject",
-        "url": "https://raw.githubusercontent.com/yuyi124/sub2sing-box/dev/templates/rule_set/custom-reject.srs",
+        "tag": "custom-reject-site",
+        "url": "https://raw.githubusercontent.com/yuyi124/sub2sing-box/dev/templates/rule_set/custom-reject-site.srs",
         "download_detour": "PROXY"
       }
     ],
